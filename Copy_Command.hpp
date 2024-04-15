@@ -148,7 +148,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 			Command->Move[1] = Y;
 
-			if (__builtin_truncf(X) != 0)
+			if (__builtin_truncf(Y) != 0)
 			{
 				Command->Buttons |= 512 * ((Y > 0) + 1);
 			}
