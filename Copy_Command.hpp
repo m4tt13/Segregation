@@ -284,7 +284,9 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 		float Total_Latency = Get_Latency_Type((unsigned __int32)Engine_Module + 1871040)(Network_Channel, 0) + Get_Latency_Type((unsigned __int32)Engine_Module + 1871040)(Network_Channel, 1);
 
-		float Interpolation_Time = max(*(float*)((unsigned __int32)Client_Module + 5064356), std::clamp(*(float*)((unsigned __int32)Client_Module + 5064284), *(float*)((unsigned __int32)Engine_Module + 6385172), *(float*)((unsigned __int32)Engine_Module + 6385244)) / std::clamp(*(__int32*)((unsigned __int32)Engine_Module + 6429584), *(__int32*)((unsigned __int32)Engine_Module + 6190472), *(__int32*)((unsigned __int32)Engine_Module + 6190400)));
+		using Get_Interpolation_Time_Type = float(__cdecl*)();
+
+		float Interpolation_Time = Get_Interpolation_Time_Type((unsigned __int32)Engine_Module + 853520)();
 
 		float Corrected_Total_Latency = std::clamp(Total_Latency + Interpolation_Time, 0.f, 1.f);
 
