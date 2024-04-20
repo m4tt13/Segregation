@@ -12,11 +12,19 @@ void Redirected_Move(float Unknown_Parameter, __int8 Final)
 
 		Redirected_Read_Packets(Final);
 
-		using Fire_Events_Type = void(__cdecl*)();
+		Global_Variables->Frame_Time = 0;
 
-		Fire_Events_Type(537149456)();
+		using Render_Start_Type = void(__cdecl*)();
+
+		Render_Start_Type(604538272)();
 
 		Byte_Manager::Copy_Bytes(0, Global_Variables, sizeof(*Global_Variables), &Previous_Global_Variables);
+
+		Animation_Time = Global_Variables->Current_Time;
+
+		using Update_Animations_Type = void(__cdecl*)();
+
+		Update_Animations_Type(604212176)();
 	}
 
 	(decltype(&Redirected_Move)(Original_Move_Caller))(Unknown_Parameter, Final);
