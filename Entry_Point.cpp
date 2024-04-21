@@ -50,11 +50,11 @@
 
 #include "Read_Packets.hpp"
 
+#include "Move.hpp"
+
 #include "Send_Move.hpp"
 
 #include "Packet_Start.hpp"
-
-#include "Move.hpp"
 
 #include <vector>
 
@@ -288,6 +288,8 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 				{
 					Redirection_Manager::Redirect_Function(Original_Read_Packets_Caller, 1, (void*)537132304, 1, (void*)Redirected_Read_Packets);
 
+					Redirection_Manager::Redirect_Function(Original_Move_Caller, 0, (void*)537142544, 1, (void*)Redirected_Move);
+
 					Redirection_Manager::Redirect_Function(1, (void*)537142224, (void*)Redirected_Send_Move);
 
 					Redirection_Manager::Redirect_Function(Original_Packet_Start_Caller, 2, (void*)538164112, 1, (void*)Redirected_Packet_Start);
@@ -295,8 +297,6 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				_putws(L"[ + ] Input");
 				{
-					Redirection_Manager::Redirect_Function(Original_Move_Caller, 0, (void*)537142544, 1, (void*)Redirected_Move);
-
 					Byte_Manager::Set_Bytes(1, (void*)604993824, 3, 144);
 
 					Redirection_Manager::Redirect_Function(Original_Copy_Command_Caller, 0, (void*)604850464, 1, (void*)Redirected_Copy_Command);
