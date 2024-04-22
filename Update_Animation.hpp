@@ -14,16 +14,14 @@ void __thiscall Redirected_Update_Animation(void* Player)
 
 	Global_Variables->Current_Time = Update_Animation_Time;
 
-	float Previous_Frame_Time = Global_Variables->Frame_Time;
-
 	if (Player == *(void**)607867332)
 	{
-		Update_Animation_Type &= 2;
-
 		Byte_Manager::Copy_Bytes(0, (void*)((unsigned __int32)Player + 4124), sizeof(Update_Animation_Angles), Update_Animation_Angles);
 	}
 
-	Global_Variables->Frame_Time = Global_Variables->Interval_Per_Tick * min(Update_Animation_Type, 1);
+	float Previous_Frame_Time = Global_Variables->Frame_Time;
+
+	Global_Variables->Frame_Time = Global_Variables->Interval_Per_Tick * Update_Animation_Type;
 
 	*(float*)((unsigned __int32)Player + 96) = Update_Animation_Time - Global_Variables->Frame_Time;
 
