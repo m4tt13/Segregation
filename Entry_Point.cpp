@@ -26,6 +26,8 @@ void* Engine_Module;
 
 #include "Write_Events.hpp"
 
+#include "On_Render_Start.hpp"
+
 #include "Interpolate.hpp"
 
 #include "Update_Animation.hpp"
@@ -209,6 +211,8 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 					Add_Listener_Type((unsigned __int32)Engine_Module + 1665088)((void*)((unsigned __int32)Engine_Module + 6512952), Event_Listener, (char*)"bullet_impact", nullptr);
 
 					Redirection_Manager::Redirect_Function(Original_Write_Events_Caller, 0, (void*)((unsigned __int32)Engine_Module + 1672192), 1, (void*)Redirected_Write_Events);
+
+					Redirection_Manager::Redirect_Function(Original_On_Render_Start_Caller, 0, (void*)((unsigned __int32)Client_Module + 1744112), 1, (void*)Redirected_On_Render_Start);
 				}
 
 				_putws(L"[ + ] Interpolation");
