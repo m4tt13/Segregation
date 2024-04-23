@@ -17,11 +17,11 @@ void Redirected_Move(float Unknown_Parameter, __int8 Final)
 
 	(decltype(&Redirected_Move)(Original_Move_Caller))(Unknown_Parameter, Final);
 
-	Update_Animation_Time = Global_Variables->Current_Time;
-
 	using Update_Animations_Type = void(__cdecl*)();
 
 	Update_Animations_Type(604212176)();
+
+	Update_Animation_Time = Global_Variables->Current_Time;
 
 	Update_Animation_Type = 1;
 

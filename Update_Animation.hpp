@@ -1,8 +1,8 @@
 float Update_Animation_Time;
 
-__int8 Update_Animation_Type;
-
 float Update_Animation_Angles[2];
+
+__int8 Update_Animation_Type;
 
 void* Original_Update_Animation_Caller;
 
