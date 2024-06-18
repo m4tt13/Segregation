@@ -28,7 +28,7 @@ struct Player_Data_Structure
 	float Memorized_Y;
 };
 
-Player_Data_Structure Players_Data[65];
+Player_Data_Structure Players_Data[129];
 
 void Get_Priorities()
 {
@@ -38,16 +38,16 @@ void Get_Priorities()
 	{
 		using Get_Name_Type = void(__thiscall*)(void* Engine, __int32 Number, char* Name);
 
-		char Name[132];
+		char Name[324];
 
-		Get_Name_Type((unsigned __int32)Engine_Module + 675408)((void*)((unsigned __int32)Engine_Module + 3928612), Entity_Number, Name);
+		Get_Name_Type((unsigned __int32)Engine_Module + 613616)((void*)((unsigned __int32)Engine_Module + 4052520), Entity_Number, Name);
 
 		if (Name[0] != 0)
 		{
 			wprintf(L"[ ? ] \"%hs\" %i %i\n", Name, Entity_Number, Players_Data[Entity_Number].Priority);
 		}
 
-		if (Entity_Number < (*(Global_Variables_Structure**)((unsigned __int32)Client_Module + 4825720))->Maximum_Clients)
+		if (Entity_Number < (*(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7040500))->Maximum_Clients)
 		{
 			Entity_Number += 1;
 
@@ -62,5 +62,5 @@ void Set_Priority(Interface_Structure* Console_Variable)
 
 	__int32 Player_Number = atoi(Console_Variable->String);
 
-	Players_Data[Player_Number].Priority = atoi((char*)((unsigned __int32)Console_Variable->String + 3 - (Player_Number < 10)));
+	Players_Data[Player_Number].Priority = atoi((char*)((unsigned __int32)Console_Variable->String + 4 - (Player_Number < 10) - (Player_Number < 100)));
 }

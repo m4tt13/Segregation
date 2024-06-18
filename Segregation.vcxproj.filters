@@ -31,9 +31,6 @@
     <ClInclude Include="Send_Move.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
-    <ClInclude Include="Item_Post_Frame.hpp">
-      <Filter>Header++</Filter>
-    </ClInclude>
     <ClInclude Include="Interpolate.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
@@ -67,12 +64,6 @@
     <ClInclude Include="Precache.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
-    <ClInclude Include="Player_Move.hpp">
-      <Filter>Header++</Filter>
-    </ClInclude>
-    <ClInclude Include="Calculate_Override_Model_Index.hpp">
-      <Filter>Header++</Filter>
-    </ClInclude>
     <ClInclude Include="Packet_Start.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
@@ -86,6 +77,24 @@
       <Filter>Header++</Filter>
     </ClInclude>
     <ClInclude Include="Move.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire_Bullets.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
+    <ClInclude Include="Restart_Gesture.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
+    <ClInclude Include="Run_Command.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
+    <ClInclude Include="Delimited_Interface.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Tick_Received.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
+    <ClInclude Include="Update_Animation_State.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
     <ClInclude Include="On_Render_Start.hpp">

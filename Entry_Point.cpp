@@ -12,6 +12,10 @@
 
 void* Engine_Module;
 
+void* Client_Module;
+
+#include "Delimited_Interface.hpp"
+
 #include "Extended_Interface.hpp"
 
 #include <unordered_map>
@@ -24,6 +28,8 @@ void* Engine_Module;
 
 #include "Event_Processor.hpp"
 
+#include "Player_Tick_Received.hpp"
+
 #include "Write_Events.hpp"
 
 #include "On_Render_Start.hpp"
@@ -32,19 +38,21 @@ void* Engine_Module;
 
 #include "Update_Animation.hpp"
 
+#include "Update_Animation_State.hpp"
+
 #include "Compute_Torso_Rotation.hpp"
+
+#include "Restart_Gesture.hpp"
 
 #include "Run_Simulation.hpp"
 
 #include "Setup_Move.hpp"
 
-#include "Player_Move.hpp"
-
 #include <algorithm>
 
 #include "Finish_Move.hpp"
 
-#include "Item_Post_Frame.hpp"
+#include "Fire_Bullets.hpp"
 
 #include "Read_Packets.hpp"
 
@@ -56,13 +64,13 @@ void* Engine_Module;
 
 #include <vector>
 
+#include "Run_Command.hpp"
+
 #include "Copy_Command.hpp"
 
 #include "Draw_Crosshair.hpp"
 
 #include "Precache.hpp"
-
-#include "Calculate_Override_Model_Index.hpp"
 
 __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, void* Reserved)
 {
@@ -111,7 +119,7 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 			}
 			else
 			{
-				Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)LoadLibraryW(L"vaudio_speex.dll") + 6832), 1, 195);
+				Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)LoadLibraryW(L"vaudio_speex.dll") + 9776), 1, 195);
 
 				AllocConsole();
 
@@ -168,31 +176,47 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				Engine_Module = GetModuleHandleW(L"engine.dll");
 
+				Client_Module = GetModuleHandleW(L"client.dll");
+
 				_putws(L"[ + ] Delimit Interface");
 				{
-					unsigned __int8 Cheat_Flag_Bytes[5] = { 254, 64, 48, 144, 235 };
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 626853), 26, 144);
 
-					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int32)Engine_Module + 1359156), sizeof(Cheat_Flag_Bytes), Cheat_Flag_Bytes);
+					void* Console_Variables = *(void**)((unsigned __int32)Engine_Module + 10623468);
 
-					*(__int8*)((unsigned __int32)Engine_Module + 6384240) = 1;
+					using Find_Console_Variable_Type = Interface_Structure*(__thiscall**)(void* Console_Variables, char* Name);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Engine_Module + 1565004), 1, 235);
+					Interface_Structure* Interface_Allow_Cheats = (*Find_Console_Variable_Type(*(unsigned __int32*)Console_Variables + 52))(Console_Variables, (char*)"sv_cheats");
+					
+					Interface_Allow_Cheats->Flags &= ~8192;
+
+					Interface_Allow_Cheats->Handler = (void*)Force_Console_Variable_Value;
+
+					Force_Console_Variable_Value((Interface_Structure*)((unsigned __int32)Interface_Allow_Cheats + 24));
+
+					Interface_Structure* Interface_Allow_Lua = (*Find_Console_Variable_Type(*(unsigned __int32*)Console_Variables + 52))(Console_Variables, (char*)"sv_allowcslua");
+
+					Interface_Allow_Lua->Flags &= ~8192;
+
+					Interface_Allow_Lua->Handler = (void*)Force_Console_Variable_Value;
+
+					Force_Console_Variable_Value((Interface_Structure*)((unsigned __int32)Interface_Allow_Lua + 24));
 				}
 
 				_putws(L"[ + ] Extend Interface");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Engine_Module + 2391305), 2, 144);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Engine_Module + 2477497), 2, 144);
 
 					Implement_Extended_Interface();
 				}
 
 				_putws(L"[ + ] Events");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 616346), 1, 0);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1615966), 1, 0);
 
-					Redirection_Manager::Redirect_Function(Original_Post_Network_Data_Received_Caller, 0, (void*)((unsigned __int32)Client_Module + 1550352), 1, (void*)Redirected_Post_Network_Data_Received);
+					Redirection_Manager::Redirect_Function(Original_Post_Network_Data_Received_Caller, 0, (void*)((unsigned __int32)Client_Module + 2579600), 1, (void*)Redirected_Post_Network_Data_Received);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Engine_Module + 785516), 1, 235);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Engine_Module + 728702), 1, 235);
 
 					void* Event_Listener = (void*)malloc(sizeof(void*));
 
@@ -204,123 +228,97 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 					using Add_Listener_Type = __int8(__thiscall*)(void* Event_Manager, void* Listener, char* Event, void* Unknown_Parameter);
 
-					Add_Listener_Type((unsigned __int32)Engine_Module + 1665088)((void*)((unsigned __int32)Engine_Module + 6512952), Event_Listener, (char*)"player_hurt", nullptr);
+					Add_Listener_Type((unsigned __int32)Engine_Module + 1665200)((void*)((unsigned __int32)Engine_Module + 4321104), Event_Listener, (char*)"player_hurt", nullptr);
 
-					Add_Listener_Type((unsigned __int32)Engine_Module + 1665088)((void*)((unsigned __int32)Engine_Module + 6512952), Event_Listener, (char*)"player_death", nullptr);
+					Add_Listener_Type((unsigned __int32)Engine_Module + 1665200)((void*)((unsigned __int32)Engine_Module + 4321104), Event_Listener, (char*)"entity_killed", nullptr);
 
-					Add_Listener_Type((unsigned __int32)Engine_Module + 1665088)((void*)((unsigned __int32)Engine_Module + 6512952), Event_Listener, (char*)"bullet_impact", nullptr);
+					*(void**)((unsigned __int32)Client_Module + 7600488) = (void*)Redirected_Player_Tick_Received;
 
-					Redirection_Manager::Redirect_Function(Original_Write_Events_Caller, 0, (void*)((unsigned __int32)Engine_Module + 1672192), 1, (void*)Redirected_Write_Events);
+					Redirection_Manager::Redirect_Function(Original_Write_Events_Caller, 0, (void*)((unsigned __int32)Engine_Module + 1671904), 1, (void*)Redirected_Write_Events);
 
-					Redirection_Manager::Redirect_Function(Original_On_Render_Start_Caller, 0, (void*)((unsigned __int32)Client_Module + 1744112), 1, (void*)Redirected_On_Render_Start);
+					Redirection_Manager::Redirect_Function(Original_On_Render_Start_Caller, 0, (void*)((unsigned __int32)Client_Module + 2783696), 1, (void*)Redirected_On_Render_Start);
 				}
 
 				_putws(L"[ + ] Interpolation");
 				{
-					Redirection_Manager::Redirect_Function(Original_Interpolate_Caller, 0, (void*)((unsigned __int32)Client_Module + 547872), 1, (void*)Redirected_Interpolate);
+					Redirection_Manager::Redirect_Function(Original_Interpolate_Caller, 0, (void*)((unsigned __int32)Client_Module + 1541936), 1, (void*)Redirected_Interpolate);
 				}
 
 				_putws(L"[ + ] Animations");
 				{
-					Redirection_Manager::Redirect_Function(Original_Update_Animation_Caller, 4, (void*)((unsigned __int32)Client_Module + 1915328), 1, (void*)Redirected_Update_Animation);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 3158245), 6, 144);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1915365), 1, 235);
+					Redirection_Manager::Redirect_Function(Original_Update_Animation_Caller, 1, (void*)((unsigned __int32)Client_Module + 598224), 1, (void*)Redirected_Update_Animation);
+					
+					Redirection_Manager::Redirect_Function(Original_Update_Animation_State_Caller, 0, (void*)((unsigned __int32)Client_Module + 3158064), 1, (void*)Redirected_Update_Animation_State);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 601904), 2, 144);
-
-					Redirection_Manager::Redirect_Function(Original_Compute_Torso_Rotation_Caller, 0, (void*)((unsigned __int32)Client_Module + 376048), 1, (void*)Redirected_Compute_Torso_Rotation);
+					Redirection_Manager::Redirect_Function(Original_Compute_Torso_Rotation_Caller, 0, (void*)((unsigned __int32)Client_Module + 3216976), 1, (void*)Redirected_Compute_Torso_Rotation);
 
 					unsigned __int8 Maintain_Sequence_Transitions_Bytes[3] = { 194, 16, 0 };
 
-					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int32)Client_Module + 549072), sizeof(Maintain_Sequence_Transitions_Bytes), Maintain_Sequence_Transitions_Bytes);
+					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int32)Client_Module + 1543312), sizeof(Maintain_Sequence_Transitions_Bytes), Maintain_Sequence_Transitions_Bytes);
+
+					Redirection_Manager::Redirect_Function(Original_Restart_Gesture_Caller, 2, (void*)((unsigned __int32)Client_Module + 3225632), 1, (void*)Redirected_Restart_Gesture);
 				}
 
 				_putws(L"[ + ] Prediction");
 				{
-					auto Add_Prediction_Fields = [](Prediction_Descriptor_Structure* Descriptor, Prediction_Field_Structure* Fields, __int32 Size) -> void
-					{
-						Prediction_Descriptor_Structure* Original_Descriptor = (Prediction_Descriptor_Structure*)malloc(sizeof(Prediction_Descriptor_Structure));
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 2577719), 9, 144);
 
-						Byte_Manager::Copy_Bytes(0, Original_Descriptor, sizeof(Prediction_Descriptor_Structure), Descriptor);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 2584428), 1, 235);
 
-						Descriptor->Fields = Fields;
+					Redirection_Manager::Redirect_Function(Original_Run_Simulation_Caller, 0, (void*)((unsigned __int32)Client_Module + 2582288), 1, (void*)Redirected_Run_Simulation);
 
-						Descriptor->Size = Size;
+					Redirection_Manager::Redirect_Function(Original_Setup_Move_Caller, 2, (void*)((unsigned __int32)Client_Module + 2583648), 1, (void*)Redirected_Setup_Move);
 
-						Descriptor->Parent = Original_Descriptor;
-					};
+					Redirection_Manager::Redirect_Function(Original_Finish_Move_Caller, 0, (void*)((unsigned __int32)Client_Module + 2578128), 1, (void*)Redirected_Finish_Move);
 
-					static Prediction_Field_Structure Player_Fields = { 1, (char*)"m_flVelocityModifier", { 5176 }, 1, 256, { }, nullptr, sizeof(float), { }, 0.005f };
-
-					Add_Prediction_Fields((Prediction_Descriptor_Structure*)((unsigned __int32)Client_Module + 4861888), &Player_Fields, sizeof(Player_Fields) / sizeof(Prediction_Field_Structure));
-
-					static Prediction_Field_Structure Weapon_Fields[4] = 
-					{ 
-						{ 1, (char*)"m_bDelayFire", { 2340 }, 1, 0, { }, nullptr, sizeof(__int8), { }, 0},
-
-						{ 1, (char*)"m_flDecreaseShotsFired", { 2356 }, 1, 0, { }, nullptr, sizeof(float), { }, 0 }
-					};
-
-					Add_Prediction_Fields((Prediction_Descriptor_Structure*)((unsigned __int32)Client_Module + 4867964), Weapon_Fields, sizeof(Weapon_Fields) / sizeof(Prediction_Field_Structure));
-
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1548805), 8, 144);
-
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1555313), 1, 235);
-
-					Redirection_Manager::Redirect_Function(Original_Run_Simulation_Caller, 0, (void*)((unsigned __int32)Client_Module + 1552528), 1, (void*)Redirected_Run_Simulation);
-
-					Redirection_Manager::Redirect_Function(Original_Setup_Move_Caller, 2, (void*)((unsigned __int32)Client_Module + 1553824), 1, (void*)Redirected_Setup_Move);
-
-					Redirection_Manager::Redirect_Function(Original_Player_Move_Caller, 1, (void*)((unsigned __int32)Client_Module + 1945776), 1, (void*)Redirected_Player_Move);
-
-					Redirection_Manager::Redirect_Function(Original_Finish_Move_Caller, 1, (void*)((unsigned __int32)Client_Module + 1549072), 1, (void*)Redirected_Finish_Move);
-
-					Redirection_Manager::Redirect_Function(Original_Item_Post_Frame_Caller, 0, (void*)((unsigned __int32)Client_Module + 432656), 1, (void*)Redirected_Item_Post_Frame);
+					Redirection_Manager::Redirect_Function(Original_Fire_Bullets_Caller, 0, (void*)((unsigned __int32)Client_Module + 594128), 1, (void*)Redirected_Fire_Bullets);
 				}
 
 				_putws(L"[ + ] Network");
 				{
-					Redirection_Manager::Redirect_Function(Original_Read_Packets_Caller, 0, (void*)((unsigned __int32)Engine_Module + 771728), 1, (void*)Redirected_Read_Packets);
+					Redirection_Manager::Redirect_Function(Original_Read_Packets_Caller, 4, (void*)((unsigned __int32)Engine_Module + 715488), 1, (void*)Redirected_Read_Packets);
 
-					Redirection_Manager::Redirect_Function(Original_Move_Caller, 0, (void*)((unsigned __int32)Engine_Module + 770528), 1, (void*)Redirected_Move);
+					Redirection_Manager::Redirect_Function(Original_Move_Caller, 2, (void*)((unsigned __int32)Engine_Module + 714112), 1, (void*)Redirected_Move);
 
-					Redirection_Manager::Redirect_Function(1, (void*)((unsigned __int32)Engine_Module + 772928), (void*)Redirected_Send_Move);
+					unsigned __int8 Send_Move_Bytes[5] = { 233, 160, 0, 0, 0 };
 
-					Redirection_Manager::Redirect_Function(Original_Packet_Start_Caller, 0, (void*)((unsigned __int32)Engine_Module + 2030944), 1, (void*)Redirected_Packet_Start);
+					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int32)Engine_Module + 714460), sizeof(Send_Move_Bytes), Send_Move_Bytes);
+
+					Redirection_Manager::Redirect_Function(Original_Send_Move_Caller, 0, (void*)((unsigned __int32)Engine_Module + 2511392), 1, (void*)Redirected_Send_Move);
+
+					Redirection_Manager::Redirect_Function(Original_Packet_Start_Caller, 0, (void*)((unsigned __int32)Engine_Module + 1985600), 1, (void*)Redirected_Packet_Start);
 				}
 
 				_putws(L"[ + ] Input");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1343395), 3, 144);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 2355285), 3, 144);
 
-					Redirection_Manager::Redirect_Function(Original_Copy_Command_Caller, 0, (void*)((unsigned __int32)Client_Module + 1177632), 1, (void*)Redirected_Copy_Command);
+					Redirection_Manager::Redirect_Function(Original_Copy_Command_Caller, 0, (void*)((unsigned __int32)Client_Module + 2203456), 1, (void*)Redirected_Copy_Command);
 				}
 
 				_putws(L"[ + ] View Effects");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 430022), 52, 144);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1404398), 55, 144);
+
+					Redirection_Manager::Redirect_Function(Original_Run_Command_Caller, 0, (void*)((unsigned __int32)Client_Module + 2581360), 1, (void*)Redirected_Run_Command);
 				}
 
 				_putws(L"[ + ] Crosshair");
 				{
-					Redirection_Manager::Redirect_Function(1, (void*)((unsigned __int32)Client_Module + 2156016), (void*)Redirected_Draw_Crosshair);
+					Redirection_Manager::Redirect_Function(1, (void*)((unsigned __int32)Client_Module + 2287248), (void*)Redirected_Draw_Crosshair);
 				}
 
 				_putws(L"[ + ] Materials");
 				{
-					Redirection_Manager::Redirect_Function(Original_Precache_Caller, 5, (void*)((unsigned __int32)GetModuleHandleW(L"MaterialSystem.dll") + 239552), 1, (void*)Redirected_Precache);
+					Redirection_Manager::Redirect_Function(Original_Precache_Caller, 5, (void*)((unsigned __int32)GetModuleHandleW(L"MaterialSystem.dll") + 240320), 1, (void*)Redirected_Precache);
 
-					Redirection_Manager::Redirect_Function(1, (void*)((unsigned __int32)Client_Module + 582800), (void*)Redirected_Calculate_Override_Model_Index);
+					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 2890427), 1, 235);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1743076), 1, 0);
+					unsigned __int8 Skybox_Bytes[5] = { 144, 49, 192, 235, 117 };
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1842904), 1, 235);
-
-					unsigned __int8 Smoke_Bytes[3] = { 194, 8, 0 };
-
-					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int32)Client_Module + 2311408), sizeof(Smoke_Bytes), Smoke_Bytes);
-
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int32)Client_Module + 1913184), 1, 195);
+					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int32)Client_Module + 2882713), sizeof(Skybox_Bytes), Skybox_Bytes);
 				}
 			}
 		}

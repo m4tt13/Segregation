@@ -2,7 +2,7 @@ void* Original_Precache_Caller;
 
 void __thiscall Redirected_Precache(void* Material)
 {
-	if ((*(unsigned __int16*)((unsigned __int32)Material + 32) & 8) == 0)
+	if ((*(unsigned __int16*)((unsigned __int32)Material + 36) & 8) == 0)
 	{
 		static __int8 Precache;
 
