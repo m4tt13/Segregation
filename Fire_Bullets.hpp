@@ -23,13 +23,13 @@ void __thiscall Redirected_Fire_Bullets(void* Player, Fire_Bullets_Info_Structur
 {
 	Bullets_Fired = 1;
 	
-	if (__builtin_return_address(0) == (void*)((unsigned __int32)Client_Module + 1092362))
+	if (__builtin_return_address(0) == (void*)((unsigned __int32)Client_Module + 1095978))
 	{
 		Byte_Manager::Set_Bytes(0, Weapon_Recoil, sizeof(Weapon_Recoil), 0);
 	}
 	else
 	{
-		Byte_Manager::Copy_Bytes(0, Weapon_Recoil, sizeof(Weapon_Recoil), (float*)((unsigned __int32)Player + 9432));
+		Byte_Manager::Copy_Bytes(0, Weapon_Recoil, sizeof(Weapon_Recoil), (float*)((unsigned __int32)Player + 9440));
 	}
 
 	Byte_Manager::Copy_Bytes(0, Weapon_Spread, sizeof(Weapon_Spread), Fire_Bullets_Info->Spread);

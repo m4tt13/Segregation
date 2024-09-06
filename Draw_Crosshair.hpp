@@ -6,7 +6,7 @@ void __thiscall Redirected_Draw_Crosshair(void* Unknown_Parameter)
 	{
 		using Set_Color_Type = void(__thiscall**)(void* Surface, unsigned __int8 Red, unsigned __int8 Green, unsigned __int8 Blue, unsigned __int8 Alpha);
 
-		void* Surface = *(void**)((unsigned __int32)Client_Module + 8469060);
+		void* Surface = *(void**)((unsigned __int32)Client_Module + 8476276);
 
 		(*Set_Color_Type(*(unsigned __int32*)Surface + 44))(Surface, Red, 0, 0, 255);
 
@@ -62,7 +62,7 @@ void __thiscall Redirected_Draw_Crosshair(void* Unknown_Parameter)
 
 	using Get_Screen_Size_Type = void(__cdecl*)(__int32* Screen_Width, __int32* Screen_Height);
 
-	Get_Screen_Size_Type((unsigned __int32)Client_Module + 2753168)(&Screen_Width, &Screen_Height);
+	Get_Screen_Size_Type((unsigned __int32)Client_Module + 2773936)(&Screen_Width, &Screen_Height);
 
 	Screen_Width /= 2;
 
@@ -86,5 +86,5 @@ void __thiscall Redirected_Draw_Crosshair(void* Unknown_Parameter)
 
 	Uber_Alles(255, Screen_Width, Screen_Height);
 
-	Rotation_Angle = __builtin_remainderf(Rotation_Angle - (*(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7040500))->Frame_Time * Interface_Uber_Alles_Speed.Integer, 180);
+	Rotation_Angle = __builtin_remainderf(Rotation_Angle - (*(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7049092))->Frame_Time * Interface_Uber_Alles_Speed.Integer, 180);
 }

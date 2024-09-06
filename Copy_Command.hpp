@@ -6,19 +6,19 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 {
 	Command->Extra_Simulations = 0;
 
-	void* Local_Player = *(void**)((unsigned __int32)Client_Module + 7596836);
+	void* Local_Player = *(void**)((unsigned __int32)Client_Module + 7603940);
 
 	if (*(__int8*)((unsigned __int32)Local_Player + 143) == 0)
 	{
 		using Run_Prediction_Type = void(__cdecl*)();
 
-		Run_Prediction_Type((unsigned __int32)Engine_Module + 735392)();
+		Run_Prediction_Type((unsigned __int32)Engine_Module + 736144)();
 
 		auto Angle_Vectors = [](float* Angles, float* Forward, float* Right, float* Up) -> void
 		{
 			using Angle_Vectors_Type = void(__cdecl*)(float* Angles, float* Forward, float* Right, float* Up);
 
-			Angle_Vectors_Type((unsigned __int32)Client_Module + 3873344)(Angles, Forward, Right, Up);
+			Angle_Vectors_Type((unsigned __int32)Client_Module + 3892288)(Angles, Forward, Right, Up);
 		};
 
 		float Move_Angles[3] =
@@ -42,7 +42,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 			}
 			else
 			{
-				Command->Buttons &= ~(*(__int32*)((unsigned __int32)Local_Player + 9928) & 2);
+				Command->Buttons &= ~(*(__int32*)((unsigned __int32)Local_Player + 9936) & 2);
 			}
 
 			float Difference = __builtin_remainderf(Move_Angles[1] - Previous_Move_Angle_Y, 360);
@@ -99,7 +99,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 		{
 			using Vector_Normalize_Type = float(__thiscall*)(float* Vector);
 
-			return Vector_Normalize_Type((unsigned __int32)Client_Module + 3871024)(Vector);
+			return Vector_Normalize_Type((unsigned __int32)Client_Module + 3889968)(Vector);
 		};
 
 		Vector_Normalize(Desired_Move_Forward);
@@ -162,7 +162,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 		Command->Buttons |= 1;
 		
-		void* Prediction = (void*)((unsigned __int32)Client_Module + 7308728);
+		void* Prediction = (void*)((unsigned __int32)Client_Module + 7317296);
 
 		*(__int8*)((unsigned __int32)Prediction + 8) = 1;
 
@@ -170,7 +170,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 		auto Suppress_Events = [&](__int8 State) -> void
 		{
-			void* Prediction_System = *(void**)((unsigned __int32)Client_Module + 8152208);
+			void* Prediction_System = *(void**)((unsigned __int32)Client_Module + 8159336);
 
 			Traverse_Prediction_Systems_Label:
 			{
@@ -196,7 +196,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 			Byte_Manager::Copy_Bytes(0, Local_Player_Previous_Origin, sizeof(Local_Player_Previous_Origin), Local_Player_Origin);
 		}
 
-		Redirected_Run_Command(Prediction, Local_Player, Command, (void*)((unsigned __int32)Client_Module + 7056528));
+		Redirected_Run_Command(Prediction, Local_Player, Command, (void*)((unsigned __int32)Client_Module + 7065104));
 
 		Suppress_Events(0);
 
@@ -208,7 +208,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 		static __int8 Send_Packet;
 
-		__int32 Choked_Commands_Count = *(__int32*)((unsigned __int32)Engine_Module + 5265392);
+		__int32 Choked_Commands_Count = *(__int32*)((unsigned __int32)Engine_Module + 5269640);
 
 		__int8 Predicted_Send_Packet = 0;
 
@@ -309,17 +309,17 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 		using Get_Latency_Type = float(__thiscall*)(void* Network_Channel, __int32 Type);
 
-		void* Network_Channel = *(void**)((unsigned __int32)Engine_Module + 5197016);
+		void* Network_Channel = *(void**)((unsigned __int32)Engine_Module + 5201264);
 
-		float Total_Latency = Get_Latency_Type((unsigned __int32)Engine_Module + 1841568)(Network_Channel, 0) + Get_Latency_Type((unsigned __int32)Engine_Module + 1841568)(Network_Channel, 1);
+		float Latency = Get_Latency_Type((unsigned __int32)Engine_Module + 1843744)(Network_Channel, 0);
 
 		using Get_Interpolation_Time_Type = float(__stdcall*)();
 
-		float Interpolation_Time = Get_Interpolation_Time_Type((unsigned __int32)Engine_Module + 796592)();
+		float Interpolation_Time = Get_Interpolation_Time_Type((unsigned __int32)Engine_Module + 797328)();
 
-		float Corrected_Total_Latency = std::clamp(Total_Latency + Interpolation_Time, 0.f, 1.f);
+		float Corrected_Latency = std::clamp(Latency + Interpolation_Time, 0.f, 1.f);
 
-		Global_Variables_Structure* Global_Variables = *(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7040500);
+		Global_Variables_Structure* Global_Variables = *(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7049092);
 
 		struct Target_Structure
 		{
@@ -344,7 +344,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 			if (Player_Data->Priority != -1)
 			{
-				void* Entity = *(void**)((unsigned __int32)Client_Module + 7974180 + ((Entity_Number - 16385) << 4));
+				void* Entity = *(void**)((unsigned __int32)Client_Module + 7981300 + ((Entity_Number - 16385) << 4));
 
 				if (Entity != nullptr)
 				{
@@ -363,7 +363,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 							{
 								if (*(__int8*)((unsigned __int32)Entity + 382) == 0)
 								{
-									__int32 Tick_Number = (*(float*)((unsigned __int32)Entity + 104) + Interpolation_Time) / Global_Variables->Interval_Per_Tick + 0.5f;
+									__int32 Target_Tick = *(float*)((unsigned __int32)Entity + 104) / Global_Variables->Interval_Per_Tick + 0.5f;
 
 									float* Entity_Origin = (float*)((unsigned __int32)Entity + 824);
 
@@ -373,9 +373,9 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 										Entity,
 
-										Tick_Number,
+										Target_Tick + (__int32)(Interpolation_Time / Global_Variables->Interval_Per_Tick + 0.5f),
 
-										__builtin_fabsf(Corrected_Total_Latency - (__int32)(Global_Variables->Tick_Number + 2 - *(__int32*)((unsigned __int32)Engine_Module + 4295724) + (Interface_Alternative.Integer == 0) + (__int32)(Total_Latency / Global_Variables->Interval_Per_Tick + 0.5f) - Tick_Number) * Global_Variables->Interval_Per_Tick) <= 0.2f,
+										__builtin_fabsf(Corrected_Latency - (__int32)(Global_Variables->Tick_Number + (Interface_Alternative.Integer == 0) + (__int32)(Latency / Global_Variables->Interval_Per_Tick + 0.5f) - Target_Tick) * Global_Variables->Interval_Per_Tick) <= 0.2f,
 
 										__builtin_powf(Local_Player_Origin[0] - Entity_Origin[0], 2) + __builtin_powf(Local_Player_Origin[1] - Entity_Origin[1], 2) + __builtin_powf(Local_Player_Origin[2] - Entity_Origin[2], 2)
 									};
@@ -444,7 +444,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 									float Eye_Position[3];
 
-									Get_Eye_Position_Type((unsigned __int32)Client_Module + 1383280)(Local_Player, Eye_Position);
+									Get_Eye_Position_Type((unsigned __int32)Client_Module + 1388832)(Local_Player, Eye_Position);
 
 									Recent_Player_Data_Number = 0;
 
@@ -458,7 +458,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 											{
 												using Get_Studio_Header_Type = void*(__thiscall*)(void* Entity);
 
-												void* Studio_Header = Get_Studio_Header_Type((unsigned __int32)Client_Module + 764288)(Target->Self);
+												void* Studio_Header = Get_Studio_Header_Type((unsigned __int32)Client_Module + 763792)(Target->Self);
 
 												void* Hitbox_Set = (void*)((unsigned __int32)*(void**)Studio_Header + *(__int32*)((unsigned __int32)*(void**)Studio_Header + 176) + 12 * *(unsigned __int32*)((unsigned __int32)Target->Self + 5024));
 
@@ -492,15 +492,15 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 												if (Hitbox != nullptr)
 												{
-													Redirected_Compute_Torso_Rotation(*(void**)((unsigned __int32)Target->Self + 12272), Studio_Header);
+													Compute_Custom_Torso_Rotation(*(void**)((unsigned __int32)Target->Self + 12280), Studio_Header);
 
 													using Invalidate_Bone_Cache_Type = void(__thiscall*)(void* Entity);
 
-													Invalidate_Bone_Cache_Type((unsigned __int32)Client_Module + 1542176)(Target->Self);
+													Invalidate_Bone_Cache_Type((unsigned __int32)Client_Module + 1549344)(Target->Self);
 
 													using Get_Bone_Cache_Type = void*(__cdecl*)(unsigned __int32 Bone_Cache_Handle);
 
-													void* Bone_Cache = Get_Bone_Cache_Type((unsigned __int32)Client_Module + 1484512)(*(unsigned __int32*)((unsigned __int32)Target->Self + 5788));
+													void* Bone_Cache = Get_Bone_Cache_Type((unsigned __int32)Client_Module + 1491104)(*(unsigned __int32*)((unsigned __int32)Target->Self + 5792));
 
 													if (Bone_Cache != nullptr)
 													{
@@ -511,7 +511,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 													float Bones[128][3][4];
 
-													if (Setup_Bones_Type((unsigned __int32)Client_Module + 1555456)((void*)((unsigned __int32)Target->Self + 4), Bones, 128, 524032, Global_Variables->Current_Time) == 1)
+													if (Setup_Bones_Type((unsigned __int32)Client_Module + 1562736)((void*)((unsigned __int32)Target->Self + 4), Bones, 128, 524032, Global_Variables->Current_Time) == 1)
 													{
 														auto Trace_Ray = [&](float Direction[3]) -> __int8
 														{
@@ -565,11 +565,11 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 																Eye_Position[2] + Direction[2] * Weapon_Range
 															};
 
-															Initialize_Ray_Type((unsigned __int32)Client_Module + 980384)(&Ray, Eye_Position, End);
+															Initialize_Ray_Type((unsigned __int32)Client_Module + 983392)(&Ray, Eye_Position, End);
 
 															Filter_Structure Filter;
 
-															Filter.Table = (void*)((unsigned __int32)Client_Module + 5957600);
+															Filter.Table = (void*)((unsigned __int32)Client_Module + 5976040);
 
 															Filter.Skip = Local_Player;
 
@@ -578,14 +578,16 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 															Filter.Handler = nullptr;
 
 															Trace_Structure Trace;
+															
+															Trace.Entity = nullptr;
 
-															Trace_Ray_Type((unsigned __int32)Engine_Module + 1652960)((void*)((unsigned __int32)Engine_Module + 4320980), &Ray, 1174421507, &Filter, &Trace);
+															Trace_Ray_Type((unsigned __int32)Engine_Module + 1654768)((void*)((unsigned __int32)Engine_Module + 4325076), &Ray, 1174421507, &Filter, &Trace);
 
 															if (Trace.Start_Solid == 0)
 															{
 																using Clip_Trace_To_Players_Type = void(__cdecl*)(float* Start, float* End, __int32 Mask, Filter_Structure* Filter, Trace_Structure* Trace);
 
-																Clip_Trace_To_Players_Type((unsigned __int32)Client_Module + 2735952)(Eye_Position, End, 1174421507, &Filter, &Trace);
+																Clip_Trace_To_Players_Type((unsigned __int32)Client_Module + 2756752)(Eye_Position, End, 1174421507, &Filter, &Trace);
 															}
 
 															if (Trace.Entity == Target->Self)
@@ -752,7 +754,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 											using Random_Type = float(__cdecl*)(float Minimum, float Maximum);
 											
-											void* Console_Variables = *(void**)((unsigned __int32)Engine_Module + 10623468);
+											void* Console_Variables = *(void**)((unsigned __int32)Engine_Module + 10627684);
 
 											using Find_Console_Variable_Type = Interface_Structure*(__thiscall**)(void* Console_Variables, char* Name);
 
@@ -844,24 +846,26 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 										float Computed_Pitch = __builtin_atan2f(Rotation[0] * -Spread[0] + Rotation[1] * Spread[2], Rotation[0] * Spread[2] + Rotation[1] * Spread[0]) * 180 / 3.1415927f - Weapon_Recoil[0];
 										
+										float Computed_Yaw = __builtin_atan2f(Forward[0] * -Spread[1] + Forward[1] * Rotation[1], Forward[0] * Rotation[1] + Forward[1] * Spread[1]) * 180 / 3.1415927f - Weapon_Recoil[1];
+										
 										if (Computed_Pitch < 0)
 										{
 											Command->Angles[0] = Computed_Pitch;
 
-											Command->Angles[1] = __builtin_atan2f(Forward[0] * -Spread[1] + Forward[1] * Rotation[1], Forward[0] * Rotation[1] + Forward[1] * Spread[1]) * 180 / 3.1415927f - Weapon_Recoil[1];
+											Command->Angles[1] = Computed_Yaw;
 										}
 										else
 										{
 											Command->Angles[0] = 180 - Computed_Pitch;
 
-											Command->Angles[1] = 180 + __builtin_atan2f(Forward[0] * -Spread[1] + Forward[1] * Rotation[1], Forward[0] * Rotation[1] + Forward[1] * Spread[1]) * 180 / 3.1415927f - Weapon_Recoil[1];
+											Command->Angles[1] = 180 + Computed_Yaw;
 										}
 
 										In_Attack = 1;
 
 										Send_Packet = (Interface_Alternative.Integer != 0) * 2;
 
-										Shot_Tick = *(__int32*)((unsigned __int32)Local_Player + 10132);
+										Shot_Tick = *(__int32*)((unsigned __int32)Local_Player + 10140);
 
 										Shot_Time = Global_Variables->Current_Time;
 									}
@@ -929,7 +933,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 		{
 			using Send_Datagram_Type = __int32(__thiscall*)(void* Network_Channel, void* Unknown_Parameter);
 
-			__int32 Sequence_Number = *(__int32*)((unsigned __int32)Network_Channel + 8) = Send_Datagram_Type((unsigned __int32)Engine_Module + 1852432)(Network_Channel, nullptr);
+			__int32 Sequence_Number = *(__int32*)((unsigned __int32)Network_Channel + 8) = Send_Datagram_Type((unsigned __int32)Engine_Module + 1854608)(Network_Channel, nullptr);
 
 			Sequences[Sequence_Number % 90] =
 			{

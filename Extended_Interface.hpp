@@ -50,13 +50,13 @@ void Implement_Extended_Interface()
 		{
 			using Create_Console_Command_Type = void(__thiscall*)(Interface_Structure* Interface, char* Name, void* Handler, void* Unknown_Parameter_1, void* Unknown_Parameter_2, void* Unknown_Parameter_3);
 
-			Create_Console_Command_Type((unsigned __int32)Client_Module + 4600672)(Interface, Name, Handler, nullptr, nullptr, nullptr);
+			Create_Console_Command_Type((unsigned __int32)Client_Module + 4619552)(Interface, Name, Handler, nullptr, nullptr, nullptr);
 		}
 		else
 		{
 			using Create_Console_Variable_Type = void(__thiscall*)(Interface_Structure* Interface, char* Name, char* Value, void* Unknown_Parameter_1, void* Unknown_Parameter_2, void* Handler);
 
-			Create_Console_Variable_Type((unsigned __int32)Engine_Module + 2478784)(Interface, Name, Value, nullptr, nullptr, Handler);
+			Create_Console_Variable_Type((unsigned __int32)Engine_Module + 2481232)(Interface, Name, Value, nullptr, nullptr, Handler);
 		}
 
 		wprintf(L"[ + ] %hs -> %p\n", Name, Interface);
