@@ -818,6 +818,10 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 										Angle_Vectors(Command->Angles, Forward, nullptr, nullptr);
 
+										Command->Command_Number = -25077545;
+
+										Command->Random_Seed = 33;
+
 										float Spread[3];
 
 										Calculate_Spread(Spread);
