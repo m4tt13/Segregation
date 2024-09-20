@@ -818,7 +818,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 										Angle_Vectors(Command->Angles, Forward, nullptr, nullptr);
 
-										Command->Command_Number = -25077545;
+										Command->Command_Number = -98069271;
 
 										Command->Random_Seed = 33;
 
@@ -848,21 +848,21 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 											Rotation[1] = __builtin_sqrtf(Square_XZ - Forward[2] * Forward[2]);
 										}
 
-										float Computed_Pitch = __builtin_atan2f(Rotation[0] * -Spread[0] + Rotation[1] * Spread[2], Rotation[0] * Spread[2] + Rotation[1] * Spread[0]) * 180 / 3.1415927f - Weapon_Recoil[0];
+										float Compensated_Pitch_1 = __builtin_atan2f(Rotation[0] * -Spread[0] + Rotation[1] * Spread[2], Rotation[0] * Spread[2] + Rotation[1] * Spread[0]) * 180 / 3.1415927f;
 										
-										float Computed_Yaw = __builtin_atan2f(Forward[0] * -Spread[1] + Forward[1] * Rotation[1], Forward[0] * Rotation[1] + Forward[1] * Spread[1]) * 180 / 3.1415927f - Weapon_Recoil[1];
+										float Compensated_Pitch_2 = -Compensated_Pitch_1 - Weapon_Recoil[0];
 										
-										if (Computed_Pitch < 0)
+										if (Compensated_Pitch_2 > 0)
 										{
-											Command->Angles[0] = Computed_Pitch;
-
-											Command->Angles[1] = Computed_Yaw;
+											Command->Angles[0] = Compensated_Pitch_1 - Weapon_Recoil[0];
+										
+											Command->Angles[1] = __builtin_atan2f(Forward[0] * -Spread[1] + Forward[1] * Rotation[1], Forward[0] * Rotation[1] + Forward[1] * Spread[1]) * 180 / 3.1415927f - Weapon_Recoil[1];
 										}
 										else
 										{
-											Command->Angles[0] = 180 - Computed_Pitch;
-
-											Command->Angles[1] = 180 + Computed_Yaw;
+											Command->Angles[0] = 180 + Compensated_Pitch_2;
+										
+											Command->Angles[1] = 180 + __builtin_atan2f(Forward[0] * -Spread[1] + Forward[1] * Rotation[1], Forward[0] * Rotation[1] + Forward[1] * Spread[1]) * 180 / 3.1415927f - Weapon_Recoil[1];
 										}
 
 										In_Attack = 1;
