@@ -100,5 +100,8 @@
     <ClInclude Include="On_Render_Start.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
+    <ClInclude Include="Post_Data_Update.hpp">
+      <Filter>Header++</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

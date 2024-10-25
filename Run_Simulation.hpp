@@ -12,13 +12,15 @@ struct Command_Structure
 
 	__int32 Buttons;
 
-	__int8 Additional_Bytes_2[1];
+	__int8 Additional_Bytes_1[1];
 
 	__int32 Select;
 
-	__int8 Additional_Bytes_3[4];
+	__int8 Additional_Bytes_2[4];
 
 	__int32 Random_Seed;
+	
+	__int8 Additional_Bytes_3[272];
 };
 
 void* Original_Run_Simulation_Caller;

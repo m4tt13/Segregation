@@ -30,17 +30,19 @@ Interface_Structure Interface_Aim_Hitgroup;
 
 Interface_Structure Interface_Angle_X;
 
+Interface_Structure Interface_Extrapolation;
+
 Interface_Structure Interface_First_Choked_Angle_Y;
 
 Interface_Structure Interface_Second_Choked_Angle_Y;
 
 Interface_Structure Interface_Angle_Y;
 
+Interface_Structure Interface_Team_Check;
+
 Interface_Structure Interface_Uber_Alles_Scale;
 
 Interface_Structure Interface_Uber_Alles_Speed;
-
-Interface_Structure Interface_Team_Check;
 
 void Implement_Extended_Interface()
 {
@@ -91,6 +93,8 @@ void Implement_Extended_Interface()
 	Create_Console_Interface(Pointer_Name(Interface_Aim_Height), (char*)"0.9", nullptr);
 
 	Create_Console_Interface(Pointer_Name(Interface_Aim_Hitgroup), (char*)"1", nullptr);
+	
+	Create_Console_Interface(Pointer_Name(Interface_Extrapolation), (char*)"1", nullptr);
 
 	Create_Console_Interface(Pointer_Name(Interface_Angle_X), (char*)"180", nullptr);
 
@@ -99,10 +103,10 @@ void Implement_Extended_Interface()
 	Create_Console_Interface(Pointer_Name(Interface_Second_Choked_Angle_Y), (char*)"136", nullptr);
 
 	Create_Console_Interface(Pointer_Name(Interface_Angle_Y), (char*)"-135", nullptr);
+	
+	Create_Console_Interface(Pointer_Name(Interface_Team_Check), (char*)"1", nullptr);
 
 	Create_Console_Interface(Pointer_Name(Interface_Uber_Alles_Scale), (char*)"16", nullptr);
 
 	Create_Console_Interface(Pointer_Name(Interface_Uber_Alles_Speed), (char*)"192", nullptr);
-
-	Create_Console_Interface(Pointer_Name(Interface_Team_Check), (char*)"1", nullptr);
 }

@@ -34,6 +34,8 @@ void* Client_Module;
 
 #include "On_Render_Start.hpp"
 
+#include "Post_Data_Update.hpp"
+
 #include "Interpolate.hpp"
 
 #include "Update_Animation.hpp"
@@ -237,6 +239,8 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 					Redirection_Manager::Redirect_Function(Original_Write_Events_Caller, 0, (void*)((unsigned __int32)Engine_Module + 1673744), 1, (void*)Redirected_Write_Events);
 
 					Redirection_Manager::Redirect_Function(Original_On_Render_Start_Caller, 0, (void*)((unsigned __int32)Client_Module + 2804448), 1, (void*)Redirected_On_Render_Start);
+					
+					Redirection_Manager::Redirect_Function(Original_Post_Data_Update_Caller, 1, (void*)((unsigned __int32)Client_Module + 594384), 1, (void*)Redirected_Post_Data_Update);
 				}
 
 				_putws(L"[ + ] Interpolation");

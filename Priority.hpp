@@ -15,6 +15,12 @@ struct Global_Variables_Structure
 
 struct Player_Data_Structure
 {
+	__int8 Breaks_Lag_Compensation;
+	
+	__int32 Simulation_Ticks;
+	
+	__int32 Last_Update_Tick_Number;
+	
 	__int32 Priority;
 
 	__int32 Memory_Tolerance;
