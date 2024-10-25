@@ -98,11 +98,11 @@ void Implement_Extended_Interface()
 
 	Create_Console_Interface(Pointer_Name(Interface_Angle_X), (char*)"180", nullptr);
 
-	Create_Console_Interface(Pointer_Name(Interface_First_Choked_Angle_Y), (char*)"46", nullptr);
+	Create_Console_Interface(Pointer_Name(Interface_First_Choked_Angle_Y), (char*)"-130", nullptr);
 
-	Create_Console_Interface(Pointer_Name(Interface_Second_Choked_Angle_Y), (char*)"136", nullptr);
+	Create_Console_Interface(Pointer_Name(Interface_Second_Choked_Angle_Y), (char*)"-130", nullptr);
 
-	Create_Console_Interface(Pointer_Name(Interface_Angle_Y), (char*)"-135", nullptr);
+	Create_Console_Interface(Pointer_Name(Interface_Angle_Y), (char*)"80", nullptr);
 	
 	Create_Console_Interface(Pointer_Name(Interface_Team_Check), (char*)"1", nullptr);
 
