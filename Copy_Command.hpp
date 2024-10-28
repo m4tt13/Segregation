@@ -156,6 +156,8 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 		Correct_Movement();
 
+		Command->Typing = 1;
+
 		Bullets_Fired = 0;
 
 		__int32 Previous_Buttons = Command->Buttons;
@@ -485,7 +487,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 												if (Hitbox != nullptr)
 												{
-													using Move_To_Last_Received_Position_Type = void(__thiscall*)(void* Entity, __int8 Force);
+													using Set_Local_Origin_Type = void(__thiscall*)(void* Entity, float* Origin);
 													
 													float Target_Previous_Origin[3];
 													
@@ -582,7 +584,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 																					{
 																						*(float*)((unsigned __int32)Target->Self + 832) += 0.03125f;
 
-																						Move_To_Last_Received_Position_Type((unsigned __int32)Client_Module + 1620880)(Target->Self, 1);
+																						Set_Local_Origin_Type((unsigned __int32)Client_Module + 1632704)(Target->Self, (float*)((unsigned __int32)Target->Self + 824));
 																					}
 																					
 																					using Set_Ground_Entity_Type = void(__thiscall*)(void* Entity, void* Ground_Entity);
@@ -947,7 +949,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 															
 															Byte_Manager::Copy_Bytes(0, (float*)((unsigned __int32)Target->Self + 824), sizeof(Target_Previous_Origin), Target_Previous_Origin);
 
-															Move_To_Last_Received_Position_Type((unsigned __int32)Client_Module + 1620880)(Target->Self, 1);
+															Set_Local_Origin_Type((unsigned __int32)Client_Module + 1632704)(Target->Self, (float*)((unsigned __int32)Target->Self + 824));
 
 															goto Found_Target_Label;
 														}
@@ -955,7 +957,7 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 													
 													Byte_Manager::Copy_Bytes(0, (float*)((unsigned __int32)Target->Self + 824), sizeof(Target_Previous_Origin), Target_Previous_Origin);
 													
-													Move_To_Last_Received_Position_Type((unsigned __int32)Client_Module + 1620880)(Target->Self, 1);
+													Set_Local_Origin_Type((unsigned __int32)Client_Module + 1632704)(Target->Self, (float*)((unsigned __int32)Target->Self + 824));
 												}
 											}
 
@@ -1025,23 +1027,9 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 
 												if (Shot_Bias < 0)
 												{
-													if (Random_X < 0)
-													{
-														Random_X = -1 - Random_X;
-													}
-													else
-													{
-														Random_X = 1 - Random_X;
-													}
+													Random_X = (Random_X >= 0) ? 1 - Random_X : -1 - Random_X;
 
-													if (Random_Y < 0)
-													{
-														Random_Y = -1 - Random_Y;
-													}
-													else
-													{
-														Random_Y = 1 - Random_Y;
-													}
+													Random_Y = (Random_Y >= 0) ? 1 - Random_Y : -1 - Random_Y;
 												}
 
 												Random_Z = Random_X * Random_X + Random_Y * Random_Y;

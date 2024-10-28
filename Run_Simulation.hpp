@@ -20,7 +20,11 @@ struct Command_Structure
 
 	__int32 Random_Seed;
 	
-	__int8 Additional_Bytes_3[272];
+	__int8 Additional_Bytes_3[24];
+	
+	__int8 Typing;
+	
+	__int8 Additional_Bytes_4[247];
 };
 
 void* Original_Run_Simulation_Caller;
