@@ -8,7 +8,7 @@ void __thiscall Redirected_Post_Data_Update(void* Entity, void* Unknown_Paramete
 	
 	if (Simulation_Time != Previous_Simulation_Time)
 	{
-		Global_Variables_Structure* Global_Variables = *(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7049092);
+		Global_Variables_Structure* Global_Variables = *(Global_Variables_Structure**)((unsigned __int32)Client_Module + 7253660);
 		
 		Player_Data_Structure* Player_Data = &Players_Data[*(__int32*)((unsigned __int32)Entity + 72)];
 		

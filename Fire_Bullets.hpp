@@ -23,7 +23,7 @@ void __thiscall Redirected_Fire_Bullets(void* Player, Fire_Bullets_Info_Structur
 {
 	Bullets_Fired = 1;
 	
-	if (__builtin_return_address(0) == (void*)((unsigned __int32)Client_Module + 1095978))
+	if (__builtin_return_address(0) == (void*)((unsigned __int32)Client_Module + 1125646))
 	{
 		Byte_Manager::Set_Bytes(0, Weapon_Recoil, sizeof(Weapon_Recoil), 0);
 	}
