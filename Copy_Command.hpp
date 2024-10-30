@@ -527,6 +527,8 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 																					
 																					Byte_Manager::Copy_Bytes(0, Previous_View_Offset, sizeof(Previous_View_Offset), (float*)((unsigned __int32)Target->Self + 232));
 
+																					float Previous_Gravity = *(float*)((unsigned __int32)Target->Self + 356);
+
 																					unsigned __int8 Previous_Move_Type = *(unsigned __int8*)((unsigned __int32)Target->Self + 376);
 																					
 																					unsigned __int8 Previous_Move_Collide = *(unsigned __int8*)((unsigned __int32)Target->Self + 377);
@@ -596,8 +598,6 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 																					*(__int32*)((unsigned __int32)Target->Self + 132) = -1;
 																					
 																					Byte_Manager::Set_Bytes(0, (float*)((unsigned __int32)Target->Self + 344), sizeof(float[3]), 0);
-																					
-																					*(float*)((unsigned __int32)Target->Self + 356) = 0;
 																					
 																					*(float*)((unsigned __int32)Target->Self + 604) = 1;
 																					
@@ -696,6 +696,8 @@ void __thiscall Redirected_Copy_Command(void* Unknown_Parameter, Command_Structu
 																					Byte_Manager::Copy_Bytes(0, (float*)((unsigned __int32)Target->Self + 244), sizeof(Previous_Velocity), Previous_Velocity);
 																					
 																					*(__int32*)((unsigned __int32)Target->Self + 372) |= 4096;
+																					
+																					*(float*)((unsigned __int32)Target->Self + 356) = Previous_Gravity;
 																					
 																					*(unsigned __int8*)((unsigned __int32)Target->Self + 376) = Previous_Move_Type;
 																					
