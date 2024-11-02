@@ -127,7 +127,7 @@ void Redirected_Post_Network_Data_Received(void* Unknown_Parameter, __int32 Comm
 
 		if (Result != nullptr)
 		{
-			Predicton_Copy.Construct(Local_Player, Result, nullptr);
+			Predicton_Copy.Construct(Local_Player, Result, (void*)Predicton_Copy_Compare);
 
 			using Transfer_Data_Type = __int32(*)(Prediction_Copy_Structure* Prediction_Copy, void* Unknown_Parameter, __int32 Entity_Number, Prediction_Descriptor_Structure* Descriptor);
 
