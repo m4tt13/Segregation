@@ -8,7 +8,7 @@ void Bruteforce_Reset_Memory_Tolerance()
 
 		if (Player_Data->Memory_Tolerance != 0)
 		{
-			Player_Data->Memory_Tolerance = Interface_Bruteforce_Memory_Tolerance.Integer;
+			Player_Data->Memory_Tolerance = Interface_Bruteforce_Memory_Tolerance.Get_Integer();
 		}
 
 		Entity_Number += 1;
@@ -30,7 +30,7 @@ void Bruteforce_Reset_Tolerance()
 
 		if (Player_Data->Memory_Tolerance == 0)
 		{
-			Player_Data->Tolerance = Interface_Bruteforce_Tolerance.Integer;
+			Player_Data->Tolerance = Interface_Bruteforce_Tolerance.Get_Integer();
 		}
 
 		Entity_Number += 1;
@@ -52,7 +52,7 @@ void Bruteforce_Reset()
 
 		Player_Data->Memory_Tolerance = 0;
 
-		Player_Data->Tolerance = Interface_Bruteforce_Tolerance.Integer;
+		Player_Data->Tolerance = Interface_Bruteforce_Tolerance.Get_Integer();
 
 		Player_Data->Shots_Fired = 0;
 
@@ -77,7 +77,7 @@ void Bruteforce_Set_Angles(Interface_Structure* Console_Variable)
 
 	Bruteforce_Angles = (float*)realloc(Bruteforce_Angles, Bruteforce_Angles_Count * sizeof(Bruteforce_Angles));
 
-	Console_Variable = (Interface_Structure*)((unsigned __int32)Console_Variable - 24);
+	Console_Variable = (Interface_Structure*)((unsigned __int64)Console_Variable - 48);
 
 	Bruteforce_Angles[Bruteforce_Angles_Count - 1] = atof(Console_Variable->String);
 
@@ -91,7 +91,7 @@ void Bruteforce_Set_Angles(Interface_Structure* Console_Variable)
 
 			Bruteforce_Angles = (float*)realloc(Bruteforce_Angles, Bruteforce_Angles_Count * sizeof(Bruteforce_Angles));
 
-			String = (char*)((unsigned __int32)String + 1);
+			String = (char*)((unsigned __int64)String + 1);
 
 			Bruteforce_Angles[Bruteforce_Angles_Count - 1] = atof(String);
 

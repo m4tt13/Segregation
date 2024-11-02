@@ -46,19 +46,19 @@ Interface_Structure Interface_Uber_Alles_Speed;
 
 void Implement_Extended_Interface()
 {
-	auto Create_Console_Interface = [](Interface_Structure* Interface, char* Name, char* Value, void* Handler)
+	auto Create_Console_Interface = [](Interface_Structure* Interface, char* Name, char* Value, void* Handler) -> void
 	{
 		if (Value == nullptr)
 		{
-			using Create_Console_Command_Type = void(__thiscall*)(Interface_Structure* Interface, char* Name, void* Handler, void* Unknown_Parameter_1, void* Unknown_Parameter_2, void* Unknown_Parameter_3);
+			using Create_Console_Command_Type = void(*)(Interface_Structure* Interface, char* Name, void* Handler, void* Unknown_Parameter_1, void* Unknown_Parameter_2, void* Unknown_Parameter_3);
 
-			Create_Console_Command_Type((unsigned __int32)Client_Module + 4796832)(Interface, Name, Handler, nullptr, nullptr, nullptr);
+			Create_Console_Command_Type((unsigned __int64)Client_Module + 5172400)(Interface, Name, Handler, nullptr, nullptr, nullptr);
 		}
 		else
 		{
-			using Create_Console_Variable_Type = void(__thiscall*)(Interface_Structure* Interface, char* Name, char* Value, void* Unknown_Parameter_1, void* Unknown_Parameter_2, void* Handler);
+			using Create_Console_Variable_Type = void(*)(Interface_Structure* Interface, char* Name, char* Value, void* Unknown_Parameter_1, void* Unknown_Parameter_2, void* Handler);
 
-			Create_Console_Variable_Type((unsigned __int32)Engine_Module + 2491424)(Interface, Name, Value, nullptr, nullptr, Handler);
+			Create_Console_Variable_Type((unsigned __int64)Engine_Module + 2698480)(Interface, Name, Value, nullptr, nullptr, Handler);
 		}
 
 		wprintf(L"[ + ] %hs -> %p\n", Name, Interface);
@@ -80,7 +80,7 @@ void Implement_Extended_Interface()
 
 	Create_Console_Interface(Pointer_Name(Interface_Bruteforce_Angles), (char*)"0, -30, 30, -60, 60, -90, 90, -120, 120, -150, 150, -179, 179", (void*)Bruteforce_Set_Angles);
 
-	Bruteforce_Set_Angles((Interface_Structure*)((unsigned __int32)&Interface_Bruteforce_Angles + 24));
+	Bruteforce_Set_Angles((Interface_Structure*)((unsigned __int64)&Interface_Bruteforce_Angles + 48));
 
 	Create_Console_Interface(Pointer_Name(Interface_Alternative), (char*)"1", nullptr);
 

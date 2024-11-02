@@ -1,9 +1,15 @@
-void* Original_On_Render_Start_Caller;
+SafetyHookInline Original_On_Render_Start_Caller{};
 
-void __thiscall Redirected_On_Render_Start(void* Unknown_Parameter)
+void On_Render_Start(void* Unknown_Parameter, void* Frame_Address)
 {
-	if (*(void**)((unsigned __int32)__builtin_frame_address(0) + 48) == (void*)((unsigned __int32)Client_Module + 1967041))
+	if (*(void**)((unsigned __int64)Frame_Address + 152) == (void*)((unsigned __int64)Client_Module + 2049454))
 	{
-		(decltype(&Redirected_On_Render_Start)(Original_On_Render_Start_Caller))(Unknown_Parameter);
+		Original_On_Render_Start_Caller.call<void>(Unknown_Parameter);
 	}
+}
+
+__attribute__((naked)) void Redirected_On_Render_Start()
+{
+	asm("leaq -8(%rsp), %rdx");
+	asm("jmp %P0" : : "i"(On_Render_Start));
 }
