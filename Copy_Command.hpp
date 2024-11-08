@@ -604,7 +604,7 @@ void Copy_Command(void* Unknown_Parameter, Command_Structure* Command, void* Fra
 																		{
 																			*(float*)((unsigned __int64)Target->Self + 1072) += 0.03125f;
 
-																			Set_Local_Origin_Type((unsigned __int64)Client_Module + 1758400)(Target->Self, (float*)((unsigned __int64)Target->Self + 824));
+																			Set_Local_Origin_Type((unsigned __int64)Client_Module + 1758400)(Target->Self, (float*)((unsigned __int64)Target->Self + 1064));
 																		}
 																		
 																		using Set_Ground_Entity_Type = void(*)(void* Entity, void* Ground_Entity);
