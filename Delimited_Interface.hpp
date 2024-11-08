@@ -1,35 +1,31 @@
 struct Interface_Structure
 {
-	__int8 Additional_Bytes_1[40];
-	
-	__int32 Flags;
-	
-	__int8 Additional_Bytes_2[28];
+	__int8 Additional_Bytes_1[72];
 
 	char* String;
 
-	__int8 Additional_Bytes_3[64];
+	__int8 Additional_Bytes_2[64];
 	
 	__int32 Get_Integer()
 	{
-		using Get_Console_Variable_Integer_Type = __int32(**)(Interface_Structure* Console_Variable);
+		using Get_Interface_Integer_Type = __int32(**)(Interface_Structure* Interface);
 		
-		return (*Get_Console_Variable_Integer_Type(*(unsigned __int64*)this + 104))(this);
+		return (*Get_Interface_Integer_Type(*(unsigned __int64*)this + 104))(this);
 	}
 	
 	float Get_Floating_Point()
 	{
-		using Get_Console_Variable_Floating_Point_Type = float(**)(Interface_Structure* Console_Variable);
+		using Get_Interface_Floating_Point_Type = float(**)(Interface_Structure* Interface);
 		
-		return (*Get_Console_Variable_Floating_Point_Type(*(unsigned __int64*)this + 96))(this);
+		return (*Get_Interface_Floating_Point_Type(*(unsigned __int64*)this + 96))(this);
 	}
 };
 
-void Force_Console_Variable_Value(Interface_Structure* Console_Variable)
+void Force_Interface_Value(Interface_Structure* Interface)
 {
-	Console_Variable = (Interface_Structure*)((unsigned __int64)Console_Variable - 48);
+	Interface = (Interface_Structure*)((unsigned __int64)Interface - 48);
 
-	using Set_Console_Variable_Integer_Type = void(**)(Interface_Structure* Console_Variable, __int32 Value);
+	using Set_Interface_Integer_Type = void(**)(Interface_Structure* Interface, __int32 Integer);
 
-	(*Set_Console_Variable_Integer_Type(*(unsigned __int64*)Console_Variable + 128))(Console_Variable, 1);
+	(*Set_Interface_Integer_Type(*(unsigned __int64*)Interface + 128))(Interface, 1);
 }

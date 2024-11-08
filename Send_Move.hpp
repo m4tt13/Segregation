@@ -10,7 +10,7 @@ void Redirected_Send_Move(void* Unknown_Parameter)
 
 			void Construct(__int8* Data, unsigned __int32 Size)
 			{
-				Byte_Manager::Set_Bytes(0, Message, sizeof(Message), 0);
+				Byte_Manager::Set_Bytes(1, Message, sizeof(Message), 0);
 
 				*(void**)Message = (void*)((unsigned __int64)Engine_Module + 3635752);
 

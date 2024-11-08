@@ -6,8 +6,6 @@
 
 #include "safetyhook/safetyhook.hpp"
 
-#define Bits_64
-
 #include "Byte_Manager/Byte_Manager.hpp"
 
 void* Engine_Module;
@@ -32,7 +30,7 @@ void* Client_Module;
 
 #include "Write_Events.hpp"
 
-#include "On_Render_Start.hpp"
+#include "Shutdown.hpp"
 
 #include "Post_Data_Update.hpp"
 
@@ -113,7 +111,7 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 			}
 			else
 			{
-				Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)LoadLibraryW(L"vaudio_speex.dll") + 4816), 1, 195);
+				Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)LoadLibraryW(L"vaudio_speex.dll") + 4816), 1, 195);
 
 				AllocConsole();
 
@@ -157,12 +155,7 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				GetConsoleScreenBufferInfo(Standard_Output_Handle, &Console_Screen_Buffer_Information);
 
-				COORD Top_Left =
-				{
-					0,
-
-					0
-				};
+				COORD Top_Left = { };
 
 				DWORD Characters_Written_Count;
 
@@ -174,25 +167,19 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				_putws(L"[ + ] Delimit Interface");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 507684), 161, 144);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 507684), 161, 144);
 					
-					void* Console_Variables = *(void**)((unsigned __int64)Engine_Module + 12887056);
+					void* Interface_Manager = *(void**)((unsigned __int64)Engine_Module + 12887056);
 
-					using Find_Console_Variable_Type = Interface_Structure*(**)(void* Console_Variables, char* Name);
+					using Find_Interface_Type = Interface_Structure*(**)(void* Interface_Manager, char* Name);
 
-					using Install_Console_Variable_Handler_Type = void(*)(Interface_Structure* Console_Variable, void* Handler, __int8 Invoke);
+					using Install_Interface_Handler_Type = void(*)(Interface_Structure* Interface, void* Handler, __int8 Invoke);
 
-					Interface_Structure* Interface_Allow_Cheats = (*Find_Console_Variable_Type(*(unsigned __int64*)Console_Variables + 136))(Console_Variables, (char*)"sv_cheats");
+					Install_Interface_Handler_Type((unsigned __int64)Engine_Module + 2701696)((*Find_Interface_Type(*(unsigned __int64*)Interface_Manager + 136))(Interface_Manager, (char*)"sv_cheats"), (void*)Force_Interface_Value, 1);
+
+					Install_Interface_Handler_Type((unsigned __int64)Engine_Module + 2701696)((*Find_Interface_Type(*(unsigned __int64*)Interface_Manager + 136))(Interface_Manager, (char*)"sv_allowcslua"), (void*)Force_Interface_Value, 1);
 					
-					Interface_Allow_Cheats->Flags &= ~8192;
-					
-					Install_Console_Variable_Handler_Type((unsigned __int64)Engine_Module + 2701696)(Interface_Allow_Cheats, (void*)Force_Console_Variable_Value, 1);
-
-					Interface_Structure* Interface_Allow_Lua = (*Find_Console_Variable_Type(*(unsigned __int64*)Console_Variables + 136))(Console_Variables, (char*)"sv_allowcslua");
-
-					Interface_Allow_Lua->Flags &= ~8192;
-
-					Install_Console_Variable_Handler_Type((unsigned __int64)Engine_Module + 2701696)(Interface_Allow_Lua, (void*)Force_Console_Variable_Value, 1);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Engine_Module + 1576396), 1, 235);
 				}
 
 				_putws(L"[ + ] Extend Interface");
@@ -202,11 +189,11 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				_putws(L"[ + ] Events");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 1747518), 1, 195);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 1747518), 1, 195);
 
 					Original_Post_Network_Data_Received_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 2756688), (void*)Redirected_Post_Network_Data_Received);
 					
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Engine_Module + 625578), 1, 235);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Engine_Module + 625578), 1, 235);
 
 					void* Event_Listener = (void*)malloc(sizeof(void*));
 
@@ -226,8 +213,8 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 					Original_Write_Events_Caller = safetyhook::create_inline((void*)((unsigned __int64)Engine_Module + 1745280), (void*)Redirected_Write_Events);
 					
-					Original_On_Render_Start_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 2993808), (void*)Redirected_On_Render_Start);
-
+					Original_Shutdown_Caller = safetyhook::create_inline((void*)((unsigned __int64)Engine_Module + 1968192), (void*)Redirected_Shutdown);
+					
 					Original_Post_Data_Update_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 469664), (void*)Redirected_Post_Data_Update);
 				}
 
@@ -238,7 +225,7 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				_putws(L"[ + ] Animations");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 3430210), 6, 144);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 3430210), 6, 144);
 
 					Original_Update_Animation_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 472512), (void*)Redirected_Update_Animation);
 
@@ -246,16 +233,16 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 					Original_Compute_Torso_Rotation_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 3500896), (void*)Redirected_Compute_Torso_Rotation);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 1658944), 1, 195);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 1658944), 1, 195);
 					
 					Original_Restart_Gesture_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 3509696), (void*)Redirected_Restart_Gesture);
 				}
 
 				_putws(L"[ + ] Prediction");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 2754277), 9, 144);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 2754277), 9, 144);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 2762351), 1, 235);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 2762351), 1, 235);
 
 					Original_Run_Simulation_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 2759888), (void*)Redirected_Run_Simulation);
 
@@ -272,9 +259,9 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 					
 					Original_Move_Caller = safetyhook::create_inline((void*)((unsigned __int64)Engine_Module + 609776), (void*)Redirected_Move);
 					
-					unsigned __int8 Send_Move_Bytes[5] = { 233, 220, 0, 0, 0 };
+					unsigned __int8 Send_Move_Bytes[5] = { 233, 220 };
 
-					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int64)Engine_Module + 610213), sizeof(Send_Move_Bytes), Send_Move_Bytes);
+					Byte_Manager::Copy_Bytes(0, (void*)((unsigned __int64)Engine_Module + 610213), sizeof(Send_Move_Bytes), Send_Move_Bytes);
 					
 					Original_Send_Move_Caller = safetyhook::create_inline((void*)((unsigned __int64)Engine_Module + 2739664), (void*)Redirected_Send_Move);
 					
@@ -283,14 +270,14 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				_putws(L"[ + ] Input");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 2533352), 4, 144);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 2533352), 4, 144);
 					
 					Original_Copy_Command_Caller = safetyhook::create_inline( (void*)((unsigned __int64)Client_Module + 2382624), (void*)Redirected_Copy_Command);
 				}
 
 				_putws(L"[ + ] View Effects");
 				{
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 1490901), 52, 144);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 1490901), 52, 144);
 
 					Original_Run_Command_Caller = safetyhook::create_inline((void*)((unsigned __int64)Client_Module + 2758768), (void*)Redirected_Run_Command);
 				}
@@ -302,13 +289,13 @@ __int32 __stdcall DllMain(HMODULE This_Module, unsigned __int32 Call_Reason, voi
 
 				_putws(L"[ + ] Materials");
 				{
-					Original_Precache_Caller = safetyhook::create_inline((void*)((unsigned __int64)GetModuleHandleW(L"MaterialSystem.dll") + 64576), (void*)Redirected_Precache);
+					Original_Precache_Caller = safetyhook::create_inline((void*)((unsigned __int64)GetModuleHandleW(L"materialsystem.dll") + 64576), (void*)Redirected_Precache);
 					
 					unsigned __int8 Skybox_Bytes[3] = { 50, 219, 144 };
 
-					Byte_Manager::Copy_Bytes(1, (void*)((unsigned __int64)Client_Module + 3125399), sizeof(Skybox_Bytes), Skybox_Bytes);
+					Byte_Manager::Copy_Bytes(0, (void*)((unsigned __int64)Client_Module + 3125399), sizeof(Skybox_Bytes), Skybox_Bytes);
 
-					Byte_Manager::Set_Bytes(1, (void*)((unsigned __int64)Client_Module + 3116654), 4, 144);
+					Byte_Manager::Set_Bytes(0, (void*)((unsigned __int64)Client_Module + 3116654), 4, 144);
 				}
 			}
 		}

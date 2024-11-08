@@ -25,14 +25,14 @@ void Redirected_Fire_Bullets(void* Player, Fire_Bullets_Info_Structure* Fire_Bul
 	
 	if (__builtin_return_address(0) == (void*)((unsigned __int64)Client_Module + 1085853))
 	{
-		Byte_Manager::Set_Bytes(0, Weapon_Recoil, sizeof(Weapon_Recoil), 0);
+		Byte_Manager::Set_Bytes(1, Weapon_Recoil, sizeof(Weapon_Recoil), 0);
 	}
 	else
 	{
-		Byte_Manager::Copy_Bytes(0, Weapon_Recoil, sizeof(Weapon_Recoil), (float*)((unsigned __int64)Player + 10760));
+		Byte_Manager::Copy_Bytes(1, Weapon_Recoil, sizeof(Weapon_Recoil), (float*)((unsigned __int64)Player + 10760));
 	}
 
-	Byte_Manager::Copy_Bytes(0, Weapon_Spread, sizeof(Weapon_Spread), Fire_Bullets_Info->Spread);
+	Byte_Manager::Copy_Bytes(1, Weapon_Spread, sizeof(Weapon_Spread), Fire_Bullets_Info->Spread);
 
 	Weapon_Range = Fire_Bullets_Info->Range;
 

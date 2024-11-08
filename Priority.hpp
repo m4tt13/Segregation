@@ -17,9 +17,11 @@ struct Player_Data_Structure
 {
 	__int8 Breaks_Lag_Compensation;
 	
-	__int32 Simulation_Ticks;
+	__int32 Simulation_Ticks[2];
 	
-	__int32 Last_Update_Tick_Number;
+	__int32 Last_Update_Tick_Number[2];
+	
+	float Last_Update_Origin[3];
 	
 	__int32 Priority;
 
@@ -62,11 +64,11 @@ void Get_Priorities()
 	}
 }
 
-void Set_Priority(Interface_Structure* Console_Variable)
+void Set_Priority(Interface_Structure* Interface)
 {
-	Console_Variable = (Interface_Structure*)((unsigned __int64)Console_Variable - 48);
+	Interface = (Interface_Structure*)((unsigned __int64)Interface - 48);
 
-	__int32 Player_Number = atoi(Console_Variable->String);
+	__int32 Player_Number = atoi(Interface->String);
 
-	Players_Data[Player_Number].Priority = atoi((char*)((unsigned __int64)Console_Variable->String + 4 - (Player_Number < 10) - (Player_Number < 100)));
+	Players_Data[Player_Number].Priority = atoi((char*)((unsigned __int64)Interface->String + 4 - (Player_Number < 10) - (Player_Number < 100)));
 }

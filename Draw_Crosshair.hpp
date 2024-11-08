@@ -4,7 +4,7 @@ void Redirected_Draw_Crosshair(void* Unknown_Parameter)
 {
 	static float Rotation_Angle;
 
-	auto Uber_Alles = [&](unsigned __int8 Red, __int32 X, __int32 Y) -> void
+	auto Uber_Alles = [&](__int32 Red, __int32 X, __int32 Y) -> void
 	{
 		using Set_Color_Type = void(**)(void* Surface, __int32 Red, __int32 Green, __int32 Blue, __int32 Alpha);
 
@@ -14,29 +14,29 @@ void Redirected_Draw_Crosshair(void* Unknown_Parameter)
 
 		__int32 Points[12]
 		{
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle - 90) * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle - 90.f) * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle - 90) * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle - 90.f) * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle - 90) * 3.1415927f / 180 + 1)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle - 90.f) * 3.1415927f / 180.f + 1.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf(Rotation_Angle * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf(Rotation_Angle * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf(Rotation_Angle * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf(Rotation_Angle * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf(Rotation_Angle * 3.1415927f / 180 + 1)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf(Rotation_Angle * 3.1415927f / 180.f + 1.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle + 90) * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle + 90.f) * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle + 90) * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle + 90.f) * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle + 90) * 3.1415927f / 180 + 1)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle + 90.f) * 3.1415927f / 180.f + 1.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle + 180) * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle + 180.f) * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle + 180) * 3.1415927f / 180)),
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_cosf((Rotation_Angle + 180.f) * 3.1415927f / 180.f)),
 
-			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle + 180) * 3.1415927f / 180 + 1))
+			(__int32)(Interface_Uber_Alles_Scale.Get_Integer() * __builtin_sinf((Rotation_Angle + 180.f) * 3.1415927f / 180.f + 1.f))
 		};
 		
 		using Draw_Line_Type = void(**)(void* Surface, float From_X, float From_Y, float To_X, float To_Y);
@@ -88,5 +88,5 @@ void Redirected_Draw_Crosshair(void* Unknown_Parameter)
 
 	Uber_Alles(255, Screen_Width, Screen_Height);
 
-	Rotation_Angle = __builtin_remainderf(Rotation_Angle - (*(Global_Variables_Structure**)((unsigned __int64)Client_Module + 8690824))->Frame_Time * Interface_Uber_Alles_Speed.Get_Integer(), 180);
+	Rotation_Angle = __builtin_remainderf(Rotation_Angle - (*(Global_Variables_Structure**)((unsigned __int64)Client_Module + 8690824))->Frame_Time * Interface_Uber_Alles_Speed.Get_Integer(), 180.f);
 }

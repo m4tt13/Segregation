@@ -33,11 +33,11 @@ void Event_Processor(void* Unknown_Parameter, void* Event)
 		
 		if (Victim_Number != Killer_Number)
 		{
-			if (Killer_Number != 0)
+			if ((Killer_Number - 1 | (*(Global_Variables_Structure**)((unsigned __int64)Client_Module + 8690824))->Maximum_Clients - Killer_Number) >= 0)
 			{
-				__int32 Local_Player_Number = *(__int32*)((unsigned __int64)Local_Player + 128);
+				__int32 Local_Number = *(__int32*)((unsigned __int64)Local_Player + 128);
 
-				if (Victim_Number == Local_Player_Number)
+				if (Victim_Number == Local_Number)
 				{
 					if (Name[0] == 'e')
 					{
@@ -53,7 +53,7 @@ void Event_Processor(void* Unknown_Parameter, void* Event)
 				}
 				else
 				{
-					if (Killer_Number == Local_Player_Number)
+					if (Killer_Number == Local_Number)
 					{
 						if (Victim_Number == Recent_Player_Data_Number)
 						{

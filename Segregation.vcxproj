@@ -93,7 +93,6 @@
     <ClInclude Include="Finish_Move.hpp" />
     <ClInclude Include="Interpolate.hpp" />
     <ClInclude Include="Move.hpp" />
-    <ClInclude Include="On_Render_Start.hpp" />
     <ClInclude Include="Packet_Start.hpp" />
     <ClInclude Include="Player_Tick_Received.hpp" />
     <ClInclude Include="Post_Data_Update.hpp" />
@@ -107,6 +106,7 @@
     <ClInclude Include="Run_Command.hpp" />
     <ClInclude Include="Run_Simulation.hpp" />
     <ClInclude Include="Setup_Move.hpp" />
+    <ClInclude Include="Shutdown.hpp" />
     <ClInclude Include="Update_Animation.hpp" />
     <ClInclude Include="Update_Animation_State.hpp" />
     <ClInclude Include="Send_Move.hpp" />

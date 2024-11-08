@@ -103,10 +103,10 @@
     <ClInclude Include="Update_Animation_State.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
-    <ClInclude Include="On_Render_Start.hpp">
+    <ClInclude Include="Post_Data_Update.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
-    <ClInclude Include="Post_Data_Update.hpp">
+    <ClInclude Include="Shutdown.hpp">
       <Filter>Header++</Filter>
     </ClInclude>
   </ItemGroup>
